@@ -1,0 +1,35 @@
+Problem: https://www.interviewbit.com/problems/largest-number/
+
+Problem statement is that we need to add all numbers in such a way that it forms the largest number.
+
+For example: {3, 30, 34, 5, 9}, treat this as sample array, then result should be 9534330.
+
+
+####APPROACH-1####WRONG####
+First of all, I thought to add n 0's at the end of all number,
+ where n is computed by finding the maximum of (array size, largest number).
+
+ Here largest number size will be 2( for 30 and 34) and array size will be 5. For the number of 0's to be added will be 5.
+ Lets call it radix.
+After adding the 0's to the numbers, new array will contain :
+{30000,30000,34000,50000,90000}
+To keep the original and radixed value together, I created a class ValueHolder.
+Now, I am sorting the original array but in the comparator, I have the logic that if radixed value is greater, then original value will be treated as greater than other being compared element.
+If radixed value are same, (1st and 2nd element in our case), then check the combination of putting one original value of element before another and vice versa.
+For example in (30000,3),(30000,30), radixed values is same, so we check 3 and 30. 330 is greater than 303 , so 3 will be considered greater than 30 here.
+
+But then the food of thought is why we need radixed value if we can simply compare the permutation of combing one element before another and find out which gives maximum value.
+
+Also, this radix approach is wrong for some array, {12,121} for example. Radix values will be {120,121} respectively. And now since 121 is greater than 12, it returns 12112 as largest
+number. But this is wrong because 12121 is largest.
+
+
+#####APPROACH-2###CORRECT###TRIVIAL####
+So form 1st approach, I understood that larger value among 2 element is the one which gives larger number when placed before the another. So, we simply need to sort the array in such a way
+that it compares the element by permutation which we discussed above, and find the larger between the two. i just used java standard Comparator to do this job.
+
+
+#####APPROACH-3####CORRECT###ADVANCED###
+So instead of using Java Sorting, I preferred to use max-heap here(we can use min-heap as well) because max-heap works better here. It works in-place.
+And while max-heapifying, I just ensured that element whose combination gives larger value will be treated larger than another element in heap. And it worked!. Also, I have full control over
+my sorting technique instead of relying on Java which uses TimSort or MergeSort based upon the array size.
