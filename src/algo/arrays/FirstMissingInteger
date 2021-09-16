@@ -1,0 +1,40 @@
+https://www.interviewbit.com/problems/first-missing-integer/
+
+The problem is simple- to find the first positive missing integer in an array.
+The trivial approach is to use a hashmap and store all the numbers greater than 0 in the map.
+So we need to iterate the array once to fill the hashmap with positive numbers present in array.
+Once iterated, we will find all the numbers starting from 1 to array size in the map.
+The first number not found in the map will be the answer. If all elements are present then next number greater than
+last element of the array should be the answer.
+
+Here the time complexity is O(n) and space complexity is also O(n).
+
+
+
+Now, what if the problem should be solved in O(n) time complexity and O(n) space complexity?
+
+Consider this array: [4,6,1,500,2,800,900,3].
+
+Re-align array elements in such a way so that elements are positioned at the same index as that of element value.
+So the array should be [0,1,2,3,4,null,6].
+Elements greater than array size of less than 0 are discarded.
+
+Now while placing 4 at 5th index, 2 is already placed here. And if we dont store it somewhere, it will be lost.
+So I kept a lastValue field to store the value before replacing it and in next iteration, I make sure that
+last value is placed at correct place.
+
+Iteration1: [null,6,1,500,4,800,900,3], lastValue=2;
+Iteration2: [null,6,2,500,4,800,900,3], lastValue=1;
+Iteration3: [null,1,2,500,4,800,900,3], lastValue=6;
+Iteration4: [null,1,2,500,4,800,6,3], lastValue=null;
+
+When lastValue is null, then only proceed to next iteration. Since we need control on the iteration,
+I used while loop.
+Some elements may already be placed at correct position (where index==value) either to to natural occurence
+or due to placing of lastValue. Rather than placing it again, simply go to next iteration.
+
+Since the number are placed at the same index as that of the number and 0 is not minimum positive,
+I am adding 0 to the array to take care of situation where array is [1]
+
+
+
