@@ -1,0 +1,50 @@
+https://www.interviewbit.com/problems/repeat-and-missing-number-array/
+
+In continuation to First Missing Integer,this problem challenges to find exactly 1 repeated and 1 missing number from the array.
+
+We can simply solve this in the same array by following the approach of First Missing Integer. Only when we put the value to the sameindex as that of value,
+we check if same value already exists. If yes, then this is the repeated one. And iterating through the array at last and finding the index for which the value is null,
+gives the missing array.(see findRepeatAndMissingModifyArray())
+
+But the problem statement asks to not modify the array given in question.
+So, we can solve this with the knowledge that sum of n integers is n(n+1)/2.
+So sum of 1 to n number in array be represented by A and sum of each element present in array be represented by B.
+Now mod(A-B) will give the difference between the repeated number(lets say it  r) and missing number(lets say it m).
+For example: consider the array: [3,1,2, 5, 3]
+Here A= 1+2+3+4+5=15 and B= 3+1+2+5+3=14.
+mod(r-m)=mod(A-B)=mod(15-14)=1;
+From the array, we can easily deduce that 3 is being repeated and 4 is missing. And mod(3-4)=1
+
+For r and m to be resolved, we need atleast 2 equation but we only have mod(r-m)=diff till now.
+If we multiply actual number(lets say it AM) and multiply expected number(lets say it BM) and upon division we get
+
+AM/BM=(m/r). Because all number in numerator will cancels out all number in denominator except missing one in numerator and repeated one in denominator.
+
+For example: 1*2*3*4*5/3*1*2*5*3=4/3
+
+So we have 2 equation: mod(m-r)=diff, m/r=ratio of missing to repeated number.
+Now we can deduce that m =diff/(1-(1/ratio)) and r=diff-m.
+This solution cleverly divides the actual to received number in each iteration rather than multiplying(see line no 84 of java file).So we avoid the problem of multiplying large data set.
+But for large dataset, this division can also reach to infinity.
+
+Above solution runs in O(n) and uses O(1) space.See findRepeatAndMissingUsingMath()
+
+In above solution, we divided each actual to received number and  at the end we are left with missing in  numerator and repeated in denominator.
+But division don,t cancels out each number fully, rather it produces a decimal number which needs to be multiplied with next iteration division result.
+So although division created a small value of number to be multiplied, but multiplied still happens n times. See line no 83.
+
+Instead of dividing and multiplying, use 2 hashset-one for actual numbers fallings in range 1 to n and another for received number from problem.
+Actual hashset represents numbers in numerator of the division. Received hashset represents numbers in denominator.
+
+Before we push data to actual hashset, we check if number already exists in received hashset.If yes, then remove it from received hashset. By this way, we have divided/crossed
+out number from numerator and denominator. Or else, push it to actual hashset.
+Likewise, before we push data to received hashset,we check and remove number from actual hashset. When we add to received hashset, we also check if number has already been added.
+If yes, then thats the repeated number.
+
+At the end of iteration missing number is on the numerator i.e in actual hashset. Repeated number is either found during addition check if number already exists or it should be
+there in received hashset at the end of iteration.
+
+This uses O(n) space in worst case when received number is sorted in descending order. All the number will be added to actual hashset without being cancelled out from received hashset
+till we reach the middle of the iteration. So n/2 elements are there in actual hashset till this iteration and n/2 elements are there in received hashset.
+But in average case, it is similar to best case- it should use O(1) space. Time complexity is O(n).
+See findRepeatAndMissing()
