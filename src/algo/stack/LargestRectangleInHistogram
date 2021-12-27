@@ -1,0 +1,25 @@
+Consider the array :[6,2,5,4,5,1,6] and view the image on
+https://www.geeksforgeeks.org/largest-rectangle-under-histogram/
+
+If we find the array formed by each element of the above array, the area array will be :
+[6,10,5,12,5,7,6] and the largest area is 12.
+
+The naive approach is to run the loop(loop1) for each element(inner loop) from 0 to n-1 and and calculate the sum unless other element
+is greater than equal to current element. If not, then sum is 0 and then proceed with next element in inner loop.
+
+See largestAreaNaive().
+
+Further enhancement is to run two pointer, one to the left and other to the right from the
+ current-element and add the elements to the sum unless
+element is less than current-element on both side.
+
+See largestAreaNaive2()
+
+Third approach is enhancement to above naive2 approach. Instead of running two pointer,
+maintain 2 array, left_min and right_min which stores the index of the nearest smallest element
+on left and right respectively.
+We use stack to find the nearest smallest element on left. See NextSmallerElement code for more detail.
+
+We push every element in stack. In case stack top element is smaller than current_element, then this top element
+is the nearest smallest element to the left. stack top element's  right smallest element is current-element.
+
