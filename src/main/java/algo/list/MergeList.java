@@ -1,4 +1,4 @@
-package list;
+package algo.list;
 
 public class MergeList {
     public static void main(String[] args) {

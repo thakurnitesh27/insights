@@ -1,0 +1,17 @@
+https://leetcode.com/problems/queue-reconstruction-by-height/submissions/
+
+Approach is to find the list of people with same relative height(say 0) and sort them by their height.
+
+Here height is their actual height and relative height is the height compared to all height.
+In [5,0],[7,0],[5,2],[6,1],[4,4],[7,1]], first index value is height and second index value is relative-height.
+
+
+Approach:
+
+let relative_height=0
+let persons=Find all elements having same relative height and then sort the elements by height
+        for each person
+            do add it to correct place in the new arraylist(result). To do so, start from end of the persons
+            because greater height person should be after shorter height.
+            For example: [2,4],[3,4] in first testcase. If we add 2,4 first to array. 3,4 will be added before it in next iteration
+            Because  countOfLargerPeople will add it just when 4 persons greater than this person is found.
