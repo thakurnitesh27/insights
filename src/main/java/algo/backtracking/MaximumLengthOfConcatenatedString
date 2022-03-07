@@ -1,0 +1,28 @@
+//https://leetcode.com/problems/maximum-length-of-a-concatenated-string-with-unique-characters/submissions/
+
+This problem can be solved by using backtracking.
+
+Consider this array:   arr = new String[]{"ab", "cd", "cde", "cdef", "efg", "fgh", "abxyz"};
+
+We need to compare each string with every other string. And if the combination of both string is unique, we can find other string
+in the array which can be combined with this combination to give maximum length.
+
+
+Pseudo code:
+
+let concatenate="";
+let i=0;
+
+function x(arr, concatenate,i){
+ for each s in arr:
+   s=concatenate+s;
+   check if unique(s)
+   if not unique then continue to next string.
+   else {
+   compare length of new s with max.
+   contatenate= x(arr,s, i+1);
+   //backtrack contatenate to previous value i.e lastConcatenate.
+   concatenate=lastConcatenate.
+   }
+
+   }
