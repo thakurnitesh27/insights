@@ -164,6 +164,33 @@ public class LargestRectangleInHistogram {
 
     }
 
+    int maxAreaLatest(int [] arr){
+        int []leftSmallerElement=new int[arr.length];
+        int [] rightSmallerElement=new int[arr.length];
+
+        for(int i=0;i<arr.length;i++){
+            leftSmallerElement[i]=-1;
+            rightSmallerElement[i]=arr.length;
+        }
+        Stack<Integer> stack=new Stack<>();
+
+        for(int i=0;i<arr.length;i++){
+
+            while (!stack.isEmpty() && arr[stack.peek()]>arr[i]){
+               int j= stack.pop();
+               rightSmallerElement[j]=i;
+            }
+            leftSmallerElement[i]=stack.empty()?-1:stack.peek();
+            stack.push(i);
+        }
+        int maxArea=0;
+        for(int i=0;i<arr.length;i++){
+            int currentArea=arr[i]*(rightSmallerElement[i]-leftSmallerElement[i]-1);
+            maxArea=Math.max(currentArea,maxArea);
+        }
+        return maxArea;
+    }
+
     int maxArea(int[]hist){
         int n=hist.length;
         Stack<Integer> s = new Stack<>();

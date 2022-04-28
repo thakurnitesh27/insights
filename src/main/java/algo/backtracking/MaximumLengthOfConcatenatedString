@@ -17,7 +17,7 @@ function x(arr, concatenate,i){
  for each s in arr:
    s=concatenate+s;
    check if unique(s)
-   if not unique then continue to next string.
+   if not unique then continue to nepxt string.
    else {
    compare length of new s with max.
    contatenate= x(arr,s, i+1);

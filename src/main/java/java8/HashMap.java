@@ -40,6 +40,7 @@ public class HashMap  {
         java.util.HashMap map=new java.util.HashMap();
 
         map.put("MAY",1);
+        map.put("MAY",2);
         map.put("MYA",2);
         map.put("AMY",3);
         map.put("AYM",4);
