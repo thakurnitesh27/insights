@@ -1,72 +1,76 @@
-package algo.foobar;
 
+package algo.foobar;
+import java.lang.Math;
 import java.util.ArrayList;
 
-public class DoomsDayCopied {
+public class DoomsDayNew{
 
-    public static void main(String[] args) {
-        int[][] arr =new int[][]{
-                {0,1,0,0,1,0},
-                {4,0,0,3,2,0},
-                {0,0,0,0,0,0},
-                {0,0,0,0,0,0},
-                {0,0,0,0,0,0},
-                {0,0,0,0,0,0}
-        };
-        System.out.println(solution(arr));
-    }
-    public static int[] solution(int [][] m){
-
+}
+ class Solution
+{
+    public static int[] solution(int[][] m)
+    {
+        // Your code here
         ArrayList<Integer> termStateList = new ArrayList<Integer>();
         ArrayList<Integer> nonTermStateList = new ArrayList<Integer>();
         ArrayList<Integer> stateDenominatorList = new ArrayList<Integer>();
-        for (int i = 0; i < m.length; i++) {
+        int[] r=new int[2];
+        if(m[0][0]==0 && m.length==1)
+        {
+            r[0]=1;
+            r[1]=1;
+            return r;
+        }
+        for (int i = 0; i < m.length; i++)
+        {
             boolean allZeroInState = true;
             int stateDenominatorTemp = 0;
-            // loop through probability of all states for a particular state
-            for (int j = 0; j < m[0].length; j++) {
-                if (m[i][j] != 0) {
+            for (int j = 0; j < m[0].length; j++)
+            {
+                if (m[i][j] != 0)
+                {
                     allZeroInState = false;
                     stateDenominatorTemp += m[i][j];
                 }
             }
-            if (allZeroInState) {
+            if (allZeroInState)
+            {
                 termStateList.add(i);
-            } else {
+            }
+            else
+            {
                 nonTermStateList.add(i);
                 stateDenominatorList.add(stateDenominatorTemp);
             }
         }
-        ////system.out.println(Arrays.toString(termStateList.toArray()));
-        ////system.out.println(Arrays.toString(nonTermStateList.toArray()));
-        ////system.out.println(Arrays.toString(stateDenominatorList.toArray()));
-
-        // Create I 0 R Q matrix -- may not need
         Fraction one = new Fraction(1);
         Fraction zero = new Fraction(0);
-
-        // Create I
         ArrayList<ArrayList<Fraction>> IList = new ArrayList<ArrayList<Fraction>>();
-        for (int i = 0; i < nonTermStateList.size(); i++) {
+        for (int i = 0; i < nonTermStateList.size(); i++)
+        {
             ArrayList<Fraction> IRow = new ArrayList<Fraction>();
-            for (int j = 0; j < nonTermStateList.size(); j++) {
-                if (i==j) {
+            for (int j = 0; j < nonTermStateList.size(); j++)
+            {
+                if (i==j)
+                {
                     IRow.add(one);
-                } else {
+                } else
+                {
                     IRow.add(zero);
                 }
             }
             IList.add(IRow);
         }
-        Matrix I = new Matrix(IList, nonTermStateList.size(), nonTermStateList.size());
-        //system.out.println("I:");
+        Matrix I = new Matrix(IList, nonTermStateList.size(),nonTermStateList.size());
         I.print();
 
         // Create Q
         ArrayList<ArrayList<Fraction>> QList = new ArrayList<ArrayList<Fraction>>();
-        for (int i = 0; i < nonTermStateList.size(); i++) {
+        for (int i = 0; i < nonTermStateList.size(); i++)
+        {
             ArrayList<Fraction> QRow = new ArrayList<Fraction>();
-            for (int j = 0; j < nonTermStateList.size(); j++) {
+            for (int j = 0; j < nonTermStateList.size(); j++)
+            {
                 QRow.add(new Fraction(m[nonTermStateList.get(i)][nonTermStateList.get(j)], stateDenominatorList.get(i)));
             }
             QList.add(QRow);
@@ -78,9 +82,11 @@ public class DoomsDayCopied {
 
         // Create R
         ArrayList<ArrayList<Fraction>> RList = new ArrayList<ArrayList<Fraction>>();
-        for (int i = 0; i < nonTermStateList.size(); i++) {
+        for (int i = 0; i < nonTermStateList.size(); i++)
+        {
             ArrayList<Fraction> RRow = new ArrayList<Fraction>();
-            for (int j = 0; j < termStateList.size(); j++) {
+            for (int j = 0; j < termStateList.size(); j++)
+            {
                 RRow.add(new Fraction(m[nonTermStateList.get(i)][termStateList.get(j)], stateDenominatorList.get(i)));
             }
             RList.add(RRow);
@@ -107,26 +113,38 @@ public class DoomsDayCopied {
         ArrayList<Fraction> numeratorList = new ArrayList<Fraction>(); // numeratorList
         int[] denomList = new int[FRRow.size()]; // denomList
         // Find the numerators and the common denominator, make it an array
-        for (int i = 0; i < FRRow.size(); i++) {
+        for (int i = 0; i < FRRow.size(); i++)
+        {
             denomList[i] = FRRow.get(i).getDenominator();
             numeratorList.add(FRRow.get(i));
         }
         int lcm = getLcm(denomList);
         int[] result = new int[FRRow.size()+1];
-        for (int j = 0; j < result.length-1; j++) {
-            numeratorList.set(j, numeratorList.get(j).multiply(new Fraction(lcm)));
-            result[j] = numeratorList.get(j).getNumerator();
+        if(m[0][0]==0 && m.length==1)
+        {
+            result[0]=1;
+            result[1]=1;
+            return result;
         }
-        result[FRRow.size()] = lcm;
-        //system.out.println(Arrays.toString(result));
-
-        return result;
+        else
+        {
+            for (int j = 0; j < result.length-1; j++)
+            {
+                numeratorList.set(j, numeratorList.get(j).multiply(new Fraction(lcm)));
+                result[j] = numeratorList.get(j).getNumerator();
+            }
+            result[FRRow.size()] = lcm;
+            //system.out.println(Arrays.toString(result));
+            return result;
+        }
     }
 
-    public static int getLcm(int arr[]) {
+    public static int getLcm(int arr[])
+    {
         int max = 0;
         int n = arr.length;
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++)
+        {
             if (max < arr[i]) {
                 max = arr[i];
             }
@@ -520,7 +538,8 @@ public class DoomsDayCopied {
             return this.numerator == f1.getNumerator() && this.denominator == f1.getDenominator() && this.sign == f1.getSign();
         }
 
-        public int getNumerator() {
+        public int getNumerator()
+        {
             return this.numerator;
         }
 
@@ -528,27 +547,41 @@ public class DoomsDayCopied {
             return this.denominator;
         }
 
-        public boolean getSign() {
+        public boolean getSign()
+        {
             return this.sign;
         }
 
-        public String toString() {
+        public String toString()
+        {
             String signStr = "";
             String fractionStr = "";
-            if (this.sign) {
+            if (this.sign)
+            {
                 signStr = "-";
             }
-            if (numerator == denominator) {
+            if (numerator == denominator)
+            {
                 fractionStr = "1";
-            } else if (denominator == 1) {
+            }
+            else if (denominator == 1)
+            {
                 fractionStr = Integer.toString(numerator);
-            } else {
+            }
+            else
+            {
                 fractionStr = numerator + "/" + denominator;
             }
             return signStr + fractionStr;
         }
     }
-
-
 }
 
+class psp
+{
+    public static void main(String gg[])
+    {
+        int m[][]={{1,2,3,0,0,0},{4,5,6,0,0,0},{7,8,9,1,0,0},{0,0,0,0,1,2},{0,0,0,0,0,0},{0,0,0,0,0,0}};
+        Solution.solution(m);
+    }
+}
