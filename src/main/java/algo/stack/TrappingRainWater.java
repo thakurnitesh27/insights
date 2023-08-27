@@ -1,5 +1,8 @@
 package algo.stack;
 
+import java.util.Arrays;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.Stack;
 
 public class TrappingRainWater {
@@ -7,7 +10,46 @@ public class TrappingRainWater {
     public static void main(String[] args) {
        // int []arr=new int[]{0,1,0,2,1,0,1,3,2,1,2,1};
         int []arr=new int[]{4,2,3};
-        System.out.println(new TrappingRainWater().trappingRain(arr));
+        System.out.println(new TrappingRainWater().trap(arr));
+        arr=new int[]{0,1,0,2,1,0,1,3,2,1,2,1};
+        System.out.println(new TrappingRainWater().trap(arr));
+        arr=new int[]{4,2,0,3,2,5};
+        System.out.println(new TrappingRainWater().trap(arr));
+    }
+
+    public int trap(int[] height) {
+
+        int[] maxLeft=new int[height.length];
+        int[] maxRight=new int[height.length];
+        Arrays.fill(maxRight,-1);
+
+        LinkedList<Integer> queue=new LinkedList<>();
+
+       // queue.add(0);
+        int index=0;
+        while (index<height.length){
+
+            while (!queue.isEmpty() && height[queue.peekLast()]<height[index]){
+              int tempIndex=  queue.pollLast();
+              if(height[tempIndex]<height[index])
+              maxRight[tempIndex]=index;
+            }
+            maxLeft[index]=!queue.isEmpty()?(height[queue.peekLast()]>height[index]?queue.peekLast():-1):-1;
+            queue.offerLast(index);
+            index++;
+        }
+
+        int ans=0;
+        for(int i=0;i<height.length;i++){
+           if(maxLeft[i]==-1 || maxRight[i]==-1){
+               continue;
+           }
+           int max=Math.min(height[maxLeft[i]],height[maxRight[i]]);
+         ans+=   (max-height[i])*(maxRight[i]-maxLeft[i]-1);
+        }
+
+        return ans;
+
     }
 
     int trappingRain(int[] arr){

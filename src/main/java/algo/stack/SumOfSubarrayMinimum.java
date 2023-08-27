@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+//https://leetcode.com/problems/sum-of-subarray-minimums/discuss/178876/stack-solution-with-very-detailed-explanation-step-by-step
+
 //https://leetcode.com/problems/sum-of-subarray-minimums/
 public class SumOfSubarrayMinimum {
 
